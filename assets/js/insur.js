@@ -319,23 +319,59 @@ $('input[name="time"]').each(function(){ if($.fn.ptTimeSelect) $(this).ptTimeSel
     });
   }
 
-if ($(".contact-form-validated").length) {
-  $(".contact-form-validated").validate({
-    rules: {
-      name: { required: true },
-      email: { required: true, email: true },
-      message: { required: true },
-      subject: { required: true }
-    },
-    submitHandler: function(form) {
-      $.post($(form).attr("action"), $(form).serialize(), function(response){
-        $(form).parent().find(".result").append(response);
-        $(form).find('input[type="text"], input[type="email"], textarea').val('');
-      });
-      return false;
-    }
-  });
+$(document).ready(function() {
+  if ($(".contact-form-validated").length) {
+    $(".contact-form-validated").validate({
+      rules: {
+        city: { required: true },
+        applicant_name: { required: true },
+        next_of_kin: { required: true },
+        id_number: { required: true },
+        dob: { required: true, date: true },
+        address: { required: true },
+        contact_no: { required: true, digits: true },
+        email: { required: true, email: true },
+        occupation: { required: true },
+        monthly_income: { required: true },
+        plan: { required: true },
+        terms: { required: true }
+      },
+      submitHandler: function(form) {
+    console.log("Submit handler triggered");
+    $.post($(form).attr("action"), $(form).serialize(), function(response){
+        console.log("Response:", response);
+
+        // Try to find a result container next to the form
+        let resultContainer = $(form).siblings(".result");
+
+        // If not found, create one
+        if(resultContainer.length === 0){
+            resultContainer = $('<div class="result"></div>').insertAfter(form);
+        }
+
+        // Display the message
+        if(response.status && response.message){
+            resultContainer.html('<p class="success-message">' + response.message + '</p>').fadeIn();
+        } else {
+            resultContainer.html('<p class="error-message">Something went wrong.</p>').fadeIn();
+        }
+
+        // Clear inputs
+        $(form).find('input, textarea').val('');
+    });
+    return false;
 }
+
+    });
+  }
+
+  // Initialize niceSelect after page load
+  if ($('select.nice-select').length) {
+    $('select.nice-select').niceSelect();
+  }
+});
+
+
 
 $(document).ready(function() {
     $('select').niceSelect();

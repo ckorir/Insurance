@@ -9298,6 +9298,19 @@ ul {
   position: absolute;
 }
 
+
+.success-message {
+    color: green;
+    font-weight: bold;
+    margin-top: 15px;
+}
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+
 /*--------------------------------------------------------------
 # Sidebar
 --------------------------------------------------------------*/
