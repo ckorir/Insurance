@@ -337,6 +337,10 @@ if ($(".contact-form-validated").length) {
   });
 }
 
+$(document).ready(function() {
+    $('select').niceSelect();
+});
+
   // mailchimp form
   if ($(".mc-form").length) {
     $(".mc-form").each(function () {
