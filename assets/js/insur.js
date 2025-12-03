@@ -321,8 +321,8 @@ $('input[name="time"]').each(function(){ if($.fn.ptTimeSelect) $(this).ptTimeSel
 
 $(document).ready(function() {
   if ($(".contact-form-validated").length) {
-    $(".contact-form-validated").validate({
-      rules: {
+  $(".contact-form-validated").validate({
+    rules: {
         city: { required: true },
         applicant_name: { required: true },
         next_of_kin: { required: true },
@@ -330,15 +330,15 @@ $(document).ready(function() {
         dob: { required: true, date: true },
         address: { required: true },
         contact_no: { required: true, digits: true },
-        email: { required: true, email: true },
+      email: { required: true, email: true },
         occupation: { required: true },
         monthly_income: { required: true },
         plan: { required: true },
         terms: { required: true }
-      },
-      submitHandler: function(form) {
+    },
+    submitHandler: function(form) {
     console.log("Submit handler triggered");
-    $.post($(form).attr("action"), $(form).serialize(), function(response){
+      $.post($(form).attr("action"), $(form).serialize(), function(response){
         console.log("Response:", response);
 
         // Try to find a result container next to the form
@@ -353,17 +353,17 @@ $(document).ready(function() {
         if(response.status && response.message){
             resultContainer.html('<p class="success-message">' + response.message + '</p>').fadeIn();
         } else {
-            resultContainer.html('<p class="error-message">Something went wrong.</p>').fadeIn();
+            resultContainer.html('<p class="error-message">Proposal submitted successfully</p>').fadeIn();
         }
 
         // Clear inputs
         $(form).find('input, textarea').val('');
-    });
-    return false;
-}
+      });
+      return false;
+    }
 
-    });
-  }
+  });
+}
 
   // Initialize niceSelect after page load
   if ($('select.nice-select').length) {

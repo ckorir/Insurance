@@ -9300,12 +9300,12 @@ ul {
 
 
 .success-message {
-    color: green;
+    color: blue;
     font-weight: bold;
     margin-top: 15px;
 }
 .error-message {
-    color: red;
+    color: green;
     font-weight: bold;
     margin-top: 15px;
 }
