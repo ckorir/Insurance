@@ -319,10 +319,14 @@ $('input[name="time"]').each(function(){ if($.fn.ptTimeSelect) $(this).ptTimeSel
     });
   }
 
-$(document).ready(function() {
-  if ($(".contact-form-validated").length) {
-  $(".contact-form-validated").validate({
-    rules: {
+$(document).ready(function () {
+
+  /* =========================
+     POLICY / PROPOSAL FORM
+     ========================= */
+  if ($(".policy-form").length) {
+    $(".policy-form").validate({
+      rules: {
         city: { required: true },
         applicant_name: { required: true },
         next_of_kin: { required: true },
@@ -330,46 +334,61 @@ $(document).ready(function() {
         dob: { required: true, date: true },
         address: { required: true },
         contact_no: { required: true, digits: true },
-      email: { required: true, email: true },
+        email: { required: true, email: true },
         occupation: { required: true },
         monthly_income: { required: true },
         plan: { required: true },
         terms: { required: true }
-    },
-    submitHandler: function(form) {
-    console.log("Submit handler triggered");
-      $.post($(form).attr("action"), $(form).serialize(), function(response){
-        console.log("Response:", response);
-
-        // Try to find a result container next to the form
-        let resultContainer = $(form).siblings(".result");
-
-        // If not found, create one
-        if(resultContainer.length === 0){
-            resultContainer = $('<div class="result"></div>').insertAfter(form);
-        }
-
-        // Display the message
-        if(response.status && response.message){
-            resultContainer.html('<p class="success-message">' + response.message + '</p>').fadeIn();
-        } else {
-            resultContainer.html('<p class="error-message">Proposal submitted successfully</p>').fadeIn();
-        }
-
-        // Clear inputs
-        $(form).find('input, textarea').val('');
-      });
-      return false;
-    }
-
-  });
-}
-
-  // Initialize niceSelect after page load
-  if ($('select.nice-select').length) {
-    $('select.nice-select').niceSelect();
+      },
+      submitHandler: function (form) {
+        submitAjaxForm(form);
+      }
+    });
   }
+
+  /* =========================
+     SIMPLE CONTACT FORM
+     ========================= */
+  if ($(".simple-contact-form").length) {
+    $(".simple-contact-form").validate({
+      rules: {
+        name: { required: true },
+        email: { required: true, email: true },
+        phone: { required: true, digits: true },
+        subject: { required: true },
+        message: { required: true }
+      },
+      submitHandler: function (form) {
+        submitAjaxForm(form);
+      }
+    });
+  }
+
+  /* =========================
+     SHARED AJAX SUBMIT
+     ========================= */
+  function submitAjaxForm(form) {
+    $.post($(form).attr("action"), $(form).serialize(), function (response) {
+
+      let resultContainer = $(form).siblings(".result");
+      if (!resultContainer.length) {
+        resultContainer = $('<div class="result"></div>').insertAfter(form);
+      }
+
+      if (response.status && response.message) {
+        resultContainer.html('<p class="success-message">' + response.message + '</p>');
+      } else {
+        resultContainer.html('<p class="success-message">Form submitted successfully</p>');
+      }
+
+      $(form).find('input, textarea').val('');
+    });
+
+    return false;
+  }
+
 });
+
 
 
 
